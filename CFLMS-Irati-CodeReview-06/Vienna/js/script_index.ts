@@ -1,10 +1,13 @@
+// Creates class Location (1 because that name is taken for something else)
 class Location1 {
   name = "";
   city = "";
   ZIP_code = "";
   address = "";
   image = "";
+  date = "";
 
+  // Builds constructor
   constructor(name, city, ZIP_code, address, image, date) {
     this.name = name;
     this.city = city;
@@ -13,7 +16,11 @@ class Location1 {
     this.image = image;
     this.date = date;
   }
+
+  // Method that appends the information to the wrapper on cards
   display() {
+
+    // this helps us have to create a unique id for each element, it fails for same streets
     let id_name = this.address.slice(0,5);
     $("#wrapper").append(`
       <div class="col mb-4 card-deck mx-auto">
@@ -34,11 +41,13 @@ class Location1 {
   }
 }
 
+// Extend class Location to create Restaurant class
 class Restaurant extends Location1 {
   telephone = "";
   type = "";
   web_address = "";
 
+  // Contructor with the elements from Location + new ones
   constructor(name, city, ZIP_code, address, image, date, telephone, type, web_address){
     super(name, city, ZIP_code, address, image, date);
     this.telephone = telephone;
@@ -46,6 +55,7 @@ class Restaurant extends Location1 {
     this.web_address = web_address;
   }
 
+  // Displays the same as on Location and adds new information to the cards
   display(){
     let id_name = this.address.slice(0,5);
     super.display()
@@ -55,12 +65,14 @@ class Restaurant extends Location1 {
   }
 }
 
+// Extend class Location to create Restaurant class (1 because that name is taken for something else)
 class Event1 extends Location1 {
   web_address = "";
   event_date = "";
   event_time = "";
   ticket_price = "";
 
+  // Contructor with the elements from Location + new ones
   constructor(name, city, ZIP_code, address, image, date,  web_address, event_date, event_time, ticket_price){
     super(name, city, ZIP_code, address, image, date);
     this.web_address = web_address;
@@ -69,6 +81,7 @@ class Event1 extends Location1 {
     this.ticket_price = ticket_price;
   }
 
+  // Displays the same as on Location and adds new information to the cards
   display(){
     let id_name = this.address.slice(0,5);
     super.display()
@@ -77,8 +90,7 @@ class Event1 extends Location1 {
   }
 }
 
-
-
+// Creates class instances
 let charles = new Location1("St. Charles Church", "Vienna", "1010", "Karlsplatz 1", "img/charles.jpg", "24.05.2020 12:45");
 let park = new Location1("Schönbrunn Park, Vienna", "Wien", "1130", "Maxingstraße 13b", "img/park.jpg", "25.04.2020 13:45");
 let rat = new Location1("Rathaus", "Vienna", "1010", "Friedrich-Schmidt-Platz 1", "img/rat.jpeg", "02.07.2017 15:04")
@@ -88,14 +100,15 @@ let shen = new Restaurant("Shenlong", "Vienna", "1170", "Elterleinplatz 13", "im
 let cats = new Event1("Cats - the musical", "Vienna", "1010", "Ronacher-Seilerstätte 9", "img/cats.jpg", "23.06.2018 10:45", "http://catsmusical.at", "Fr., 15.12.2020.", "20:00", "€ 120,00");
 let guns = new Event1("Guns 'n Roses", "Wien", "1020", "Ernst-Happel Stadion, Meiereistraße 7", "img/guns.jpg", "28.10.2019 09:17", "https://www.gunsnroses.com/", "Sat, 09.06.2020", "19:30", "€ 95,50");
 
+// Adds them to array
 let places = [charles, park, rat, on, bio, shen, cats, guns];
 
-
+// Calls display method to display all cards
 for (let place of places) {
   place.display();
 }
 
-
+// Function to change the date in a way that we can order it alphabetically
 function reorderDate(oneDate){
   let date_array = [oneDate.slice(9,11), oneDate.slice(12,14), oneDate.slice(15,19), oneDate.slice(20,22), oneDate.slice(23,25)]
   let order_date = [date_array[2], date_array[1], date_array[0], date_array[3], date_array[4]]
@@ -103,31 +116,33 @@ function reorderDate(oneDate){
   return order_date_string
 }
 
-
+// Sorting function button
 $("button").on("click", function(event){
     event.preventDefault()
 
     // Gets ID of the button
     let button_id = $(this).attr("id")
     
-
+    // Orders them in descending order using the sorting function
     if (button_id == "desc"){
-        let order = $(".card-deck").sort(function (a, b){
+        var order = $(".card-deck").sort(function (a, b){
           let date_a = $(a).find(".date").text()
           let date_b = $(b).find(".date").text()
 
+          // Uses the reordering function to compare the dates
           return reorderDate(date_a) > reorderDate(date_b) ? -1:1
         })
 
+    // Orders them in ascending order using the sorting function
     } else if (button_id == "asc"){
-        let order = $(".card-deck").sort(function (a, b){
+        var order = $(".card-deck").sort(function (a, b){
           let date_a = $(a).find(".date").text()
           let date_b = $(b).find(".date").text()
 
+          // Uses the reordering function to compare the dates
           return reorderDate(date_a) < reorderDate(date_b) ? -1:1
         })
       }
-
-      $("#wrapper").html(order)
-    }
-  })
+    // Reorders the elements in the wrapper according to the order given
+    $("#wrapper").html(order)
+})
