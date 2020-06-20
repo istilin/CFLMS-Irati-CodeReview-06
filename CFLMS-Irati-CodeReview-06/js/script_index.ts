@@ -16,10 +16,10 @@ class Location1 {
   display() {
     let id_name = this.address.slice(0,5);
     $("#wrapper").append(`
-      <div class="col mb-4 card-deck">
-        <div class = "card text-white bg-info">
+      <div class="col mb-4 card-deck mx-auto">
+        <div class = "card m-0 text-white bg-info">
           <img class = "card-img-top d-none d-md-block" src = ${this.image}>
-          <div class = "card-body"  id = "card_${id_name}">
+          <div class = "card-body" id = "card_${id_name}">
             <h4 id = "name_${id_name}" class = "h4"> 
               ${this.name}
             </h4>
@@ -32,7 +32,6 @@ class Location1 {
        </div>
       `);
   }
-
 }
 
 class Restaurant extends Location1 {
@@ -52,7 +51,7 @@ class Restaurant extends Location1 {
     super.display()
     $(`#info_${id_name}`).append(`, ${this.telephone}`);
     $(`#date_${id_name}`).before(`<p class = "card-text"> ${this.type} </p>
-      <a href="${this.web_address}" class="btn btn-light"> ${this.web_address} </a>`);
+      <a href="${this.web_address}" class="btn btn-light" style = "font-size: 1vw"> ${this.web_address} </a>`);
   }
 }
 
@@ -73,7 +72,7 @@ class Event1 extends Location1 {
   display(){
     let id_name = this.address.slice(0,5);
     super.display()
-    $(`#date_${id_name}`).before(`<p class = "card-text"> ${this.ticket_price} </p><a href="${this.web_address}" class="btn btn-light"> ${this.web_address} </a>`);
+    $(`#date_${id_name}`).before(`<p class = "card-text"> ${this.ticket_price} </p><a href="${this.web_address}" class="btn btn-light" style = "font-size: 1vw"> ${this.web_address} </a>`);
     $(`#name_${id_name}`).after(`<p class = "card-text"> ${this.event_date} </p><p class = "card-text"> ${this.event_time} </p>`);
   }
 }
@@ -82,12 +81,14 @@ class Event1 extends Location1 {
 
 let charles = new Location1("St. Charles Church", "Vienna", "1010", "Karlsplatz 1", "img/charles.jpg", "24.05.2020 12:45");
 let park = new Location1("Schönbrunn Park, Vienna", "Wien", "1130", "Maxingstraße 13b", "img/park.jpg", "25.04.2020 13:45");
-let on = new Restaurant("On Restaurant", "Vienna", "1050", "Wehrgasse 8", "img/on.jpeg", "12.06.2020 02:30", "+43(1)5854900", "Chinese", "http://www.restaurant-on.at/");
+let rat = new Location1("Rathaus", "Vienna", "1010", "Friedrich-Schmidt-Platz 1", "img/rat.jpeg", "02.07.2017 15:04")
+let on = new Restaurant("On Restaurant", "Vienna", "1050", "Wehrgasse 8", "img/on.jpeg", "12.06.2020 02:30", "+43(1) 5854900", "Chinese", "http://www.restaurant-on.at/");
 let bio = new Restaurant("BioFrische", "Wien", "1150", "Stutterheimstraße 6", "img/bio.jpg", "04.02.2019 18:15",  "+43(1) 9529215", "Indian", "http://biofrische.wien");
+let shen = new Restaurant("Shenlong", "Vienna", "1170", "Elterleinplatz 13", "img/shen.jpg", "20.06.2020 16:59", "+43(1) 5960600", "Asian", "https://www.shenglong.at")
 let cats = new Event1("Cats - the musical", "Vienna", "1010", "Ronacher-Seilerstätte 9", "img/cats.jpg", "23.06.2018 10:45", "http://catsmusical.at", "Fr., 15.12.2020.", "20:00", "€ 120,00");
 let guns = new Event1("Guns 'n Roses", "Wien", "1020", "Ernst-Happel Stadion, Meiereistraße 7", "img/guns.jpg", "28.10.2019 09:17", "https://www.gunsnroses.com/", "Sat, 09.06.2020", "19:30", "€ 95,50");
 
-let places = [charles, park, on, bio, cats, guns];
+let places = [charles, park, rat, on, bio, shen, cats, guns];
 
 
 for (let place of places) {
